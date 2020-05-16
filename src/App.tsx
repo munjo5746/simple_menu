@@ -3,6 +3,15 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+    React.useEffect(() => {
+        const loadWasm = async () => {
+            const wasm = await import('wasm');
+
+            wasm.greet();
+        };
+
+        loadWasm();
+    }, []);
     return (
         <div className="App">
             <header className="App-header">
