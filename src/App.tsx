@@ -45,21 +45,26 @@ function App() {
                             </Radio.Group>
                         </Form.Item>
 
-                        <Form.Item label="THICKNESS">
-                            <Select>
-                                <Select.Option value={'3/16'}>
-                                    3/16
-                                </Select.Option>
-                            </Select>
-                        </Form.Item>
+                        <div className="inline">
+                            <Form.Item
+                                style={{ minWidth: '20em' }}
+                                label="THICKNESS"
+                            >
+                                <Select>
+                                    <Select.Option value={'3/16'}>
+                                        3/16
+                                    </Select.Option>
+                                </Select>
+                            </Form.Item>
 
-                        <Form.Item label="Dimension" name="dimension">
-                            <div className="dimension">
-                                <Input placeholder="width" />
-                                <div>x</div>
-                                <Input placeholder="height" />
-                            </div>
-                        </Form.Item>
+                            <Form.Item label="Dimension" name="dimension">
+                                <div className="dimension">
+                                    <Input placeholder="width" />
+                                    <div>x</div>
+                                    <Input placeholder="height" />
+                                </div>
+                            </Form.Item>
+                        </div>
 
                         <Form.Item label="Polish">
                             {
@@ -78,7 +83,22 @@ function App() {
 
                         <div className="inline">
                             <Form.Item label="ANNEAL OR TP">
-                                <Input disabled={true} suffix={'inch'} />
+                                <Select>
+                                    {[
+                                        {
+                                            label: 'TEMPERED',
+                                            value: 'tempered',
+                                        },
+                                        { label: 'ANNEAL', value: 'anneal' },
+                                    ].map((type) => (
+                                        <Select.Option
+                                            key={`${type.value}`}
+                                            value={type.value}
+                                        >
+                                            {type.label}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
                             <Form.Item label="MITER">
                                 <InputNumber name="miter" />
