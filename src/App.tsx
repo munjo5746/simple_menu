@@ -1,6 +1,14 @@
 import React from 'react';
 import './App.scss';
-import { Input, InputNumber, PageHeader, Radio, Select, Statistic } from 'antd';
+import {
+    Input,
+    InputNumber,
+    message,
+    PageHeader,
+    Radio,
+    Select,
+    Statistic,
+} from 'antd';
 import { Form } from 'antd';
 import json from './data.json';
 type LabelValue = {
@@ -13,7 +21,7 @@ function App() {
     const glassTypes = React.useMemo(
         () =>
             [
-                { label: 'CLEAR TYPE', value: 'clear_type' },
+                { label: 'CLEAR TYPE', value: 'clear_glass' },
                 { label: 'BRONZE/GRAY', value: 'bronze_gray' },
                 { label: 'OPTIWHITE', value: 'optiwhite' },
                 { label: 'SINGLE SIDE ACID', value: 'single_side_acid' },
@@ -37,6 +45,29 @@ function App() {
     const [selectedGlassType, setSelectedGlassType] = React.useState<
         LabelValue | undefined
     >(glassTypes[0]);
+    const [enabledFieldKeys, setEnabledFieldKeys] = React.useState<string[]>();
+    const [thicknessSelections, setThicknessSelections] = React.useState<
+        string[]
+    >();
+    const reset = React.useCallback(() => {
+        setThicknessSelections(undefined);
+    }, []);
+
+    React.useEffect(() => {
+        reset();
+
+        const data = json.filter(
+            (jsonData) => jsonData.glass_type === selectedGlassType?.value,
+        );
+        if (!data || data.length === 0) {
+            message.warning('Data cannot be found for selected glass type.');
+            return;
+        }
+
+        setThicknessSelections(
+            data.map((d) => d.thickness).filter((thickness) => !!thickness),
+        );
+    }, [selectedGlassType]);
     return (
         <PageHeader title="Title" subTitle="Calculator">
             <div className="app">
@@ -72,9 +103,14 @@ function App() {
                                 label="THICKNESS"
                             >
                                 <Select>
-                                    <Select.Option value={'3/16'}>
-                                        3/16
-                                    </Select.Option>
+                                    {thicknessSelections?.map((thickness) => (
+                                        <Select.Option
+                                            key={`thickness-key-${thickness}`}
+                                            value={thickness}
+                                        >
+                                            {thickness}
+                                        </Select.Option>
+                                    ))}
                                 </Select>
                             </Form.Item>
 
