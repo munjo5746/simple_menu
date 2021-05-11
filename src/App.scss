@@ -10,6 +10,14 @@
 
     > .form {
         flex: 1;
+        padding: 1em;
+
+        .dimension {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1em;
+        }
     }
 
     > .summary {
