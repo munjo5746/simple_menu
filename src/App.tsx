@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { Input, PageHeader, Select } from 'antd';
+import { Input, InputNumber, PageHeader, Radio, Select, Statistic } from 'antd';
 import { Form } from 'antd';
 
 function App() {
@@ -19,23 +19,40 @@ function App() {
         ],
         [],
     );
+    const polishTypes = React.useMemo(
+        () => [
+            { label: '2 SHORT', value: '2_short' },
+            { label: '2 LONG', value: '2_long' },
+            { label: '2 SHORT + 2 LONG', value: '2s_2l' },
+        ],
+        [],
+    );
     return (
         <PageHeader title="Title" subTitle="Calculator">
             <div className="app">
                 <div className="form">
                     <Form form={form} layout="vertical">
                         <Form.Item label="Glass Type">
-                            <Select>
+                            <Radio.Group>
                                 {glassTypes.map((glassType) => (
-                                    <Select.Option
+                                    <Radio
                                         key={`glass-type-option-${glassType.value}`}
                                         value={glassType.value}
                                     >
                                         {glassType.label}
-                                    </Select.Option>
+                                    </Radio>
                                 ))}
+                            </Radio.Group>
+                        </Form.Item>
+
+                        <Form.Item label="THICKNESS">
+                            <Select>
+                                <Select.Option value={'3/16'}>
+                                    3/16
+                                </Select.Option>
                             </Select>
                         </Form.Item>
+
                         <Form.Item label="Dimension" name="dimension">
                             <div className="dimension">
                                 <Input placeholder="width" />
@@ -43,9 +60,50 @@ function App() {
                                 <Input placeholder="height" />
                             </div>
                         </Form.Item>
+
+                        <Form.Item label="Polish">
+                            {
+                                <Radio.Group>
+                                    {polishTypes.map((polishType) => (
+                                        <Radio
+                                            key={`polish-type-${polishType.value}`}
+                                            value={polishType.value}
+                                        >
+                                            {polishType.label}
+                                        </Radio>
+                                    ))}
+                                </Radio.Group>
+                            }
+                        </Form.Item>
+
+                        <div className="inline">
+                            <Form.Item label="ANNEAL OR TP">
+                                <Input disabled={true} suffix={'inch'} />
+                            </Form.Item>
+                            <Form.Item label="MITER">
+                                <InputNumber name="miter" />
+                            </Form.Item>
+                            <Form.Item label='HOLE<1"'>
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item label="NOTCH">
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item label="HINGE">
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item label="PATCH">
+                                <InputNumber />
+                            </Form.Item>
+                            <Form.Item label="TEMPER ONLY">
+                                <InputNumber />
+                            </Form.Item>
+                        </div>
                     </Form>
                 </div>
-                <div className="summary">aaa</div>
+                <div className="summary">
+                    <Statistic title="Estimate" prefix="$" value="50000" />
+                </div>
             </div>
         </PageHeader>
     );

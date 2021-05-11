@@ -1,5 +1,5 @@
 .app {
-    width: 90%;
+    width: 85em;
     height: 90%;
 
     border: 1px solid lightgray;
@@ -7,6 +7,7 @@
 
     display: flex;
     flex-direction: row;
+    gap: 1em;
 
     > .form {
         flex: 1;
@@ -18,11 +19,20 @@
             align-items: center;
             gap: 1em;
         }
+
+        .inline {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1em;
+            justify-content: space-between;
+        }
     }
 
     > .summary {
+        padding: 1em;
+
         flex: initial;
         width: 30em;
-        background: purple;
     }
 }
