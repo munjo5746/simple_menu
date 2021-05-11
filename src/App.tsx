@@ -45,6 +45,7 @@ function App() {
     const [selectedGlassType, setSelectedGlassType] = React.useState<
         LabelValue | undefined
     >(glassTypes[0]);
+    const [selectedThickness, setSelectedThickness] = React.useState<string>();
     const [enabledFieldKeys, setEnabledFieldKeys] = React.useState<string[]>();
     const [thicknessSelections, setThicknessSelections] = React.useState<
         string[]
@@ -68,6 +69,21 @@ function App() {
             data.map((d) => d.thickness).filter((thickness) => !!thickness),
         );
     }, [selectedGlassType]);
+    React.useEffect(() => {
+        const data = json.filter(
+            (jsonData) => jsonData.thickness === selectedThickness,
+        );
+        if (!data || data.length === 0) {
+            message.warning('Data cannot be found for selected thickness.');
+            return;
+        }
+        // maybe, validate if all "data" has same attributes
+
+        // set fields to enable
+        setEnabledFieldKeys(Object.keys(data[0]));
+    }, [selectedThickness]);
+
+    console.log(enabledFieldKeys);
     return (
         <PageHeader title="Title" subTitle="Calculator">
             <div className="app">
@@ -102,7 +118,18 @@ function App() {
                                 style={{ minWidth: '20em' }}
                                 label="THICKNESS"
                             >
-                                <Select>
+                                <Select
+                                    onChange={(value) => {
+                                        if (!value) {
+                                            message.error(
+                                                'Unable to select thickness. This is most likely system error.',
+                                            );
+                                            return;
+                                        }
+
+                                        setSelectedThickness(value as string);
+                                    }}
+                                >
                                     {thicknessSelections?.map((thickness) => (
                                         <Select.Option
                                             key={`thickness-key-${thickness}`}
