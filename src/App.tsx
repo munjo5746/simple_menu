@@ -2,21 +2,27 @@ import React from 'react';
 import './App.scss';
 import { Input, InputNumber, PageHeader, Radio, Select, Statistic } from 'antd';
 import { Form } from 'antd';
+import json from './data.json';
+type LabelValue = {
+    label: string;
+    value: string;
+};
 
 function App() {
     const [form] = Form.useForm();
     const glassTypes = React.useMemo(
-        () => [
-            { label: 'CLEAR TYPE', value: 'clear_type' },
-            { label: 'BRONZE/GRAY', value: 'bronze_gray' },
-            { label: 'OPTIWHITE', value: 'optiwhite' },
-            { label: 'SINGLE SIDE ACID', value: 'single_side_acid' },
-            { label: 'ACID/STARPHIRE', value: 'acid_starphire' },
-            { label: 'LOW-E', value: 'low_e' },
-            { label: 'MIRROR', value: 'mirror' },
-            { label: 'STARPHIRE MIRROR', value: 'starphire_mirror' },
-            { label: 'MIRRORPANE', value: 'mirrorpane' },
-        ],
+        () =>
+            [
+                { label: 'CLEAR TYPE', value: 'clear_type' },
+                { label: 'BRONZE/GRAY', value: 'bronze_gray' },
+                { label: 'OPTIWHITE', value: 'optiwhite' },
+                { label: 'SINGLE SIDE ACID', value: 'single_side_acid' },
+                { label: 'ACID/STARPHIRE', value: 'acid_starphire' },
+                { label: 'LOW-E', value: 'low_e' },
+                { label: 'MIRROR', value: 'mirror' },
+                { label: 'STARPHIRE MIRROR', value: 'starphire_mirror' },
+                { label: 'MIRRORPANE', value: 'mirrorpane' },
+            ] as LabelValue[],
         [],
     );
     const polishTypes = React.useMemo(
@@ -27,13 +33,28 @@ function App() {
         ],
         [],
     );
+
+    const [selectedGlassType, setSelectedGlassType] = React.useState<
+        LabelValue | undefined
+    >(glassTypes[0]);
     return (
         <PageHeader title="Title" subTitle="Calculator">
             <div className="app">
                 <div className="form">
                     <Form form={form} layout="vertical">
                         <Form.Item label="Glass Type">
-                            <Radio.Group>
+                            <Radio.Group
+                                defaultValue={selectedGlassType?.value}
+                                onChange={(e) => {
+                                    setSelectedGlassType(
+                                        glassTypes.find(
+                                            (glassType) =>
+                                                glassType.value ===
+                                                e.target.value,
+                                        ),
+                                    );
+                                }}
+                            >
                                 {glassTypes.map((glassType) => (
                                     <Radio
                                         key={`glass-type-option-${glassType.value}`}
