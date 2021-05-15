@@ -13,7 +13,7 @@ import { Form } from 'antd';
 import json from './data.json';
 type LabelValue = {
     label: string;
-    value: string;
+    value: GlassTypeKey | string;
 };
 
 type FieldKey =
@@ -28,6 +28,18 @@ type FieldKey =
     | 'hinge'
     | 'patch'
     | 'temper_only';
+
+type GlassTypeKey =
+    | 'clear_glass'
+    | 'bronze_gray'
+    | 'low_iron'
+    | 'optiwhite'
+    | 'single_side_acid'
+    | 'acid_starphire'
+    | 'low_e'
+    | 'mirror'
+    | 'starphire_mirror'
+    | 'mirrorpane';
 
 function App() {
     const glassTypes = React.useMemo(
@@ -56,7 +68,11 @@ function App() {
     );
 
     const [form] = Form.useForm();
-    const [calcForm, setCalcForm] = React.useState<any>(glassTypes[0]);
+    const [calcForm, setCalcForm] = React.useState<
+        { [key in FieldKey]?: string }
+    >({
+        glass_type: glassTypes[0].value,
+    });
 
     const [selectedGlassType, setSelectedGlassType] = React.useState<
         LabelValue | undefined
@@ -144,15 +160,21 @@ function App() {
                                 label="THICKNESS"
                             >
                                 <Select
-                                    onChange={(value) => {
-                                        if (!value) {
+                                    onChange={(selected) => {
+                                        if (!selected) {
                                             message.error(
                                                 'Unable to select thickness. This is most likely system error.',
                                             );
                                             return;
                                         }
+                                        const fieldKey: FieldKey = 'thickness';
+                                        const value: string = selected as string;
+                                        setCalcForm({
+                                            ...calcForm,
+                                            [fieldKey]: value,
+                                        });
 
-                                        setSelectedThickness(value as string);
+                                        setSelectedThickness(value);
                                     }}
                                 >
                                     {thicknessSelections?.map((thickness) => (
