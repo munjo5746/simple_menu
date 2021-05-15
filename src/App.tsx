@@ -27,7 +27,9 @@ type FieldKey =
     | 'notch'
     | 'hinge'
     | 'patch'
-    | 'temper_only';
+    | 'temper_only'
+    | 'width'
+    | 'height';
 
 type GlassTypeKey =
     | 'clear_glass'
@@ -69,7 +71,7 @@ function App() {
 
     const [form] = Form.useForm();
     const [calcForm, setCalcForm] = React.useState<
-        { [key in FieldKey]?: string }
+        { [key in FieldKey]?: string | number }
     >({
         glass_type: glassTypes[0].value,
     });
@@ -190,9 +192,33 @@ function App() {
 
                             <Form.Item label="Dimension" name="dimension">
                                 <div className="dimension">
-                                    <Input placeholder="width" />
+                                    <InputNumber
+                                        placeholder="width"
+                                        onChange={(value) => {
+                                            const fieldKey: FieldKey = 'width';
+                                            const width: number =
+                                                (value as number) || 0;
+
+                                            setCalcForm({
+                                                ...calcForm,
+                                                [fieldKey]: width,
+                                            });
+                                        }}
+                                    />
                                     <div>x</div>
-                                    <Input placeholder="height" />
+                                    <InputNumber
+                                        placeholder="height"
+                                        onChange={(value) => {
+                                            const fieldKey: FieldKey = 'height';
+                                            const height: number =
+                                                (value as number) || 0;
+
+                                            setCalcForm({
+                                                ...calcForm,
+                                                [fieldKey]: height,
+                                            });
+                                        }}
+                                    />
                                 </div>
                             </Form.Item>
                         </div>
