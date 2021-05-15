@@ -1,38 +1,44 @@
-.app {
+.page {
     width: 85em;
-    height: 90%;
+    height: auto;
+    margin: 0 auto;
 
-    border: 1px solid lightgray;
-    border-radius: 5px;
+    .app {
+        width: 100%;
+        height: 100%;
 
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
+        border: 1px solid lightgray;
+        border-radius: 5px;
 
-    > .form {
-        flex: 1;
-        padding: 1em;
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
 
-        .dimension {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1em;
+        > .form {
+            flex: 1;
+            padding: 1em;
+
+            .dimension {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1em;
+            }
+
+            .inline {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 1em;
+                justify-content: space-between;
+            }
         }
 
-        .inline {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 1em;
-            justify-content: space-between;
+        > .summary {
+            padding: 1em;
+
+            flex: initial;
+            width: 30em;
         }
-    }
-
-    > .summary {
-        padding: 1em;
-
-        flex: initial;
-        width: 30em;
     }
 }

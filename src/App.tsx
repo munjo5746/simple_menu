@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.scss';
 import {
+    Button,
     Input,
     InputNumber,
     message,
     PageHeader,
+    Popover,
     Radio,
     Select,
     Statistic,
@@ -120,7 +122,16 @@ function App() {
     console.log(calcForm);
 
     return (
-        <PageHeader title="Title" subTitle="Calculator">
+        <PageHeader
+            className="page"
+            title="(¬‿¬ ) Price Estimator"
+            subTitle="Something that describes this tool!!!"
+            extra={[
+                <Popover key="price-table-popover">
+                    <Button>Price Table</Button>
+                </Popover>,
+            ]}
+        >
             <div className="app">
                 <div className="form">
                     <Form form={form} layout="vertical">
