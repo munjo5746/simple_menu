@@ -3,9 +3,10 @@
         "glass_type": "clear_glass",
         "thickness": "3/16",
         "anneal_sq_ft": 215,
+        "tempered_sq_ft": 295,
         "polish_per_1_inch": 8,
         "meter_1_inch": "",
-        "hole_less_1_inch_or_less": 950,
+        "hole_1_inch_or_less": 950,
         "notch": 1550,
         "hinge": 2000,
         "patch": 2500,
@@ -15,6 +16,26 @@
         "glass_type": "bronze_gray",
         "thickness": "1/4",
         "anneal_sq_ft": 295,
-        "polish_per_1_inch": 450
+        "tempered_sq_ft": 450,
+        "polish_per_1_inch": 8,
+        "meter_1_inch": 25,
+        "hole_1_inch_or_less": 950,
+        "notch": 1550,
+        "hinge": 2000,
+        "patch": 2500,
+        "temper_only": 155
+    },
+    {
+        "glass_type": "low_iron",
+        "thickness": "1/4",
+        "anneal_sq_ft": 550,
+        "tempered_sq_ft": 650,
+        "polish_per_1_inch": 8,
+        "meter_1_inch": 25,
+        "hole_1_inch_or_less": 950,
+        "notch": 1550,
+        "hinge": 2000,
+        "patch": 2500,
+        "temper_only": 155
     }
 ]
