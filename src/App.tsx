@@ -16,13 +16,26 @@ type LabelValue = {
     value: string;
 };
 
+type FieldKey =
+    | 'glass_type'
+    | 'thickness'
+    | 'anneal_sq_ft'
+    | 'tempered_sq_ft'
+    | 'polish_per_1_inch'
+    | 'meter_1_inch'
+    | 'hole_1_inch_or_less'
+    | 'notch'
+    | 'hinge'
+    | 'patch'
+    | 'temper_only';
+
 function App() {
-    const [form] = Form.useForm();
     const glassTypes = React.useMemo(
         () =>
             [
                 { label: 'CLEAR TYPE', value: 'clear_glass' },
                 { label: 'BRONZE/GRAY', value: 'bronze_gray' },
+                { label: 'LOW-IRON', value: 'low_iron' },
                 { label: 'OPTIWHITE', value: 'optiwhite' },
                 { label: 'SINGLE SIDE ACID', value: 'single_side_acid' },
                 { label: 'ACID/STARPHIRE', value: 'acid_starphire' },
@@ -41,6 +54,9 @@ function App() {
         ],
         [],
     );
+
+    const [form] = Form.useForm();
+    const [calcForm, setCalcForm] = React.useState<any>(glassTypes[0]);
 
     const [selectedGlassType, setSelectedGlassType] = React.useState<
         LabelValue | undefined
@@ -83,7 +99,8 @@ function App() {
         setEnabledFieldKeys(Object.keys(data[0]));
     }, [selectedThickness]);
 
-    console.log(enabledFieldKeys);
+    console.log(calcForm);
+
     return (
         <PageHeader title="Title" subTitle="Calculator">
             <div className="app">
@@ -93,13 +110,21 @@ function App() {
                             <Radio.Group
                                 defaultValue={selectedGlassType?.value}
                                 onChange={(e) => {
-                                    setSelectedGlassType(
-                                        glassTypes.find(
-                                            (glassType) =>
-                                                glassType.value ===
-                                                e.target.value,
-                                        ),
+                                    reset();
+
+                                    const fieldKey: FieldKey = 'glass_type';
+                                    const value: string = e.target.value;
+
+                                    setCalcForm({
+                                        [fieldKey]: value,
+                                    });
+
+                                    const foundGlassType = glassTypes.find(
+                                        (glassType) =>
+                                            glassType.value === value,
                                     );
+
+                                    setSelectedGlassType(foundGlassType);
                                 }}
                             >
                                 {glassTypes.map((glassType) => (
