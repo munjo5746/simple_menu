@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Input, Table, Form } from 'antd';
 import React from 'react';
 import { DataType, FieldKey } from '../App';
 import json from '../data.json';
@@ -6,19 +6,36 @@ import json from '../data.json';
 interface EditableCellProps {
     title: React.ReactNode;
     data: DataType;
+    dataIndex: string;
 }
 
 const EditableCell: React.FC<EditableCellProps> = ({
     data,
     title,
     children,
+    dataIndex,
     ...rest
 }) => {
-    console.log(title, data);
-    return <td {...rest}>{children}</td>;
+    const [editing, setEditing] = React.useState<boolean>(false);
+    const node = editing ? (
+        <Form.Item name={dataIndex}>
+            <Input />
+        </Form.Item>
+    ) : (
+        <div
+            onClick={() => {
+                setEditing(true);
+            }}
+        >
+            {children}
+        </div>
+    );
+
+    return <td {...rest}>{node}</td>;
 };
 
 const PriceTable: React.FC = () => {
+    const [form] = Form.useForm();
     const TitleMap: Record<FieldKey, string> = React.useMemo(
         () => ({
             glass_type: 'Glass Type',
@@ -44,6 +61,7 @@ const PriceTable: React.FC = () => {
             onCell: (data: DataType) => ({
                 data,
                 title,
+                dataIndex: key,
             }),
         };
     });
@@ -56,13 +74,15 @@ const PriceTable: React.FC = () => {
     });
 
     return (
-        <Table
-            columns={columns}
-            dataSource={dataSource}
-            components={{
-                body: { cell: EditableCell },
-            }}
-        ></Table>
+        <Form form={form}>
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+                components={{
+                    body: { cell: EditableCell },
+                }}
+            />
+        </Form>
     );
 };
 
