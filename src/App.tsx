@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 import {
     Button,
+    Drawer,
     Input,
     InputNumber,
     message,
@@ -13,18 +14,23 @@ import {
 } from 'antd';
 import { Form } from 'antd';
 import json from './data.json';
+import PriceTable from './app/PriceTable';
+
 type LabelValue = {
     label: string;
     value: GlassTypeKey | string;
 };
 
-type FieldKey =
+export type DataType = Record<FieldKey, DataValueType>;
+export type DataValueType = string | number | GlassTypeKey;
+
+export type FieldKey =
     | 'glass_type'
     | 'thickness'
     | 'anneal_sq_ft'
     | 'tempered_sq_ft'
     | 'polish_per_1_inch'
-    | 'meter_1_inch'
+    | 'miter_1_inch'
     | 'hole_1_inch_or_less'
     | 'notch'
     | 'hinge'
@@ -33,7 +39,7 @@ type FieldKey =
     | 'width'
     | 'height';
 
-type GlassTypeKey =
+export type GlassTypeKey =
     | 'clear_glass'
     | 'bronze_gray'
     | 'low_iron'
@@ -71,6 +77,7 @@ function App() {
         [],
     );
 
+    const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
     const [calcForm, setCalcForm] = React.useState<
         { [key in FieldKey]?: string | number }
@@ -127,9 +134,14 @@ function App() {
             title="(¬‿¬ ) Price Estimator"
             subTitle="Something that describes this tool!!!"
             extra={[
-                <Popover key="price-table-popover">
-                    <Button>Price Table</Button>
-                </Popover>,
+                <Button
+                    key="drawer-button"
+                    onClick={() => {
+                        setOpenDrawer(!openDrawer);
+                    }}
+                >
+                    Price Table
+                </Button>,
             ]}
         >
             <div className="app">
@@ -293,6 +305,17 @@ function App() {
                     <Statistic title="Estimate" prefix="$" value="50000" />
                 </div>
             </div>
+
+            <Drawer
+                title="Price Table"
+                width={1200}
+                visible={openDrawer}
+                onClose={() => {
+                    setOpenDrawer(false);
+                }}
+            >
+                <PriceTable />
+            </Drawer>
         </PageHeader>
     );
 }
