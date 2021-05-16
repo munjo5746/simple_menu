@@ -35,9 +35,9 @@ export type FieldKey =
     | 'notch'
     | 'hinge'
     | 'patch'
-    | 'temper_only'
-    | 'width'
-    | 'height';
+    | 'temper_only';
+
+export type FormFieldKey = FieldKey | 'width' | 'height';
 
 export type GlassTypeKey =
     | 'clear_glass'
@@ -80,7 +80,7 @@ function App() {
     const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
     const [calcForm, setCalcForm] = React.useState<
-        { [key in FieldKey]?: string | number }
+        { [key in FormFieldKey]?: string | number }
     >({
         glass_type: glassTypes[0].value,
     });
@@ -125,8 +125,6 @@ function App() {
         // set fields to enable
         setEnabledFieldKeys(Object.keys(data[0]));
     }, [selectedThickness]);
-
-    console.log(calcForm);
 
     return (
         <PageHeader
@@ -218,7 +216,8 @@ function App() {
                                     <InputNumber
                                         placeholder="width"
                                         onChange={(value) => {
-                                            const fieldKey: FieldKey = 'width';
+                                            const fieldKey: FormFieldKey =
+                                                'width';
                                             const width: number =
                                                 (value as number) || 0;
 
@@ -232,7 +231,8 @@ function App() {
                                     <InputNumber
                                         placeholder="height"
                                         onChange={(value) => {
-                                            const fieldKey: FieldKey = 'height';
+                                            const fieldKey: FormFieldKey =
+                                                'height';
                                             const height: number =
                                                 (value as number) || 0;
 

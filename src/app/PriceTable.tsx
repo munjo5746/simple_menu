@@ -1,7 +1,22 @@
 import { Table } from 'antd';
 import React from 'react';
-import { FieldKey } from '../App';
+import { DataType, FieldKey } from '../App';
 import json from '../data.json';
+
+interface EditableCellProps {
+    title: React.ReactNode;
+    data: DataType;
+}
+
+const EditableCell: React.FC<EditableCellProps> = ({
+    data,
+    title,
+    children,
+    ...rest
+}) => {
+    console.log(title, data);
+    return <td {...rest}>{children}</td>;
+};
 
 const PriceTable: React.FC = () => {
     const TitleMap: Record<FieldKey, string> = React.useMemo(
@@ -17,19 +32,17 @@ const PriceTable: React.FC = () => {
             patch: 'Patch',
             hinge: 'Hinge',
             temper_only: 'Temper Only',
-            width: '',
-            height: '',
         }),
         [],
     );
 
     const columns = Object.keys(json[0]).map((key) => {
         return {
-            title: TitleMap[key as FieldKey],
             dataIndex: key,
-            render: (value: any) => {
-                return value || '-';
-            },
+            onCell: (data: DataType) => ({
+                data,
+                title: TitleMap[key as FieldKey],
+            }),
         };
     });
 
@@ -40,7 +53,15 @@ const PriceTable: React.FC = () => {
         };
     });
 
-    return <Table columns={columns} dataSource={dataSource}></Table>;
+    return (
+        <Table
+            columns={columns}
+            dataSource={dataSource}
+            components={{
+                body: { cell: EditableCell },
+            }}
+        ></Table>
+    );
 };
 
 export default PriceTable;
