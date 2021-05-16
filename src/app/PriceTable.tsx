@@ -37,11 +37,13 @@ const PriceTable: React.FC = () => {
     );
 
     const columns = Object.keys(json[0]).map((key) => {
+        const title = TitleMap[key as FieldKey];
         return {
             dataIndex: key,
+            title,
             onCell: (data: DataType) => ({
                 data,
-                title: TitleMap[key as FieldKey],
+                title,
             }),
         };
     });
