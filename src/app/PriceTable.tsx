@@ -27,6 +27,9 @@ const PriceTable: React.FC = () => {
         return {
             title: TitleMap[key as FieldKey],
             dataIndex: key,
+            render: (value: any) => {
+                return value || '-';
+            },
         };
     });
 
@@ -36,8 +39,6 @@ const PriceTable: React.FC = () => {
             ...data,
         };
     });
-
-    console.log(dataSource);
 
     return <Table columns={columns} dataSource={dataSource}></Table>;
 };
