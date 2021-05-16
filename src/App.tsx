@@ -308,7 +308,7 @@ function App() {
 
             <Drawer
                 title="Price Table"
-                width={1500}
+                width={1000}
                 visible={openDrawer}
                 onClose={() => {
                     setOpenDrawer(false);

@@ -53,11 +53,19 @@ const PriceTable: React.FC = () => {
         [],
     );
 
+    const fixedColumnKeys: FieldKey[] = React.useMemo(
+        () => ['glass_type', 'thickness'],
+        [],
+    );
+
     const columns = Object.keys(json[0]).map((key) => {
         const title = TitleMap[key as FieldKey];
         return {
             dataIndex: key,
             title,
+            fixed: fixedColumnKeys.includes(key as FieldKey)
+                ? ('left' as any)
+                : undefined,
             onCell: (data: DataType) => ({
                 data,
                 title,
@@ -76,6 +84,7 @@ const PriceTable: React.FC = () => {
     return (
         <Form form={form}>
             <Table
+                scroll={{ x: 1500 }}
                 columns={columns}
                 dataSource={dataSource}
                 components={{
