@@ -140,6 +140,10 @@ function App() {
         setEnabledFieldKeys(Object.keys(data[0]));
     }, [selectedThickness]);
 
+    const onChange = (key: FieldKey) => (value: number) => {
+        // on change
+    };
+
     return (
         <PageHeader
             className="page"
@@ -304,7 +308,7 @@ function App() {
                                 'temper_only',
                             ] as FieldKey[]).map((key) => (
                                 <Form.Item key={key} label={TitleMap[key]}>
-                                    <InputNumber />
+                                    <InputNumber onChange={onChange(key)} />
                                 </Form.Item>
                             ))}
                         </div>
