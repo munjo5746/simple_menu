@@ -1,6 +1,6 @@
 import { Input, Table, Form } from 'antd';
 import React from 'react';
-import { DataType, FieldKey } from '../App';
+import { DataType, FieldKey, TitleMap } from '../App';
 import json from '../data.json';
 
 interface EditableCellProps {
@@ -30,22 +30,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 const PriceTable: React.FC = () => {
     const [form] = Form.useForm();
-    const TitleMap: Record<FieldKey, string> = React.useMemo(
-        () => ({
-            glass_type: 'Glass Type',
-            thickness: 'Thickness',
-            anneal_sq_ft: 'Anneal Sq ft',
-            tempered_sq_ft: 'Tempered Sq ft',
-            polish_per_1_inch: 'Polish per 1 inch',
-            miter_1_inch: 'Miter 1 inch',
-            hole_1_inch_or_less: 'Hole < 1"',
-            notch: 'Notch',
-            patch: 'Patch',
-            hinge: 'Hinge',
-            temper_only: 'Temper Only',
-        }),
-        [],
-    );
 
     const fixedColumnKeys: FieldKey[] = React.useMemo(
         () => ['glass_type', 'thickness'],
