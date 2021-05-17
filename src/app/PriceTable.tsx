@@ -22,13 +22,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
             <Input />
         </Form.Item>
     ) : (
-        <div
-            onClick={() => {
-                setEditing(true);
-            }}
-        >
-            {children}
-        </div>
+        <div>{children}</div>
     );
 
     return <td {...rest}>{node}</td>;
