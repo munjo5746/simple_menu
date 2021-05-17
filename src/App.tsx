@@ -294,24 +294,19 @@ function App() {
                                     ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="MITER">
-                                <InputNumber name="miter" />
-                            </Form.Item>
-                            <Form.Item label='HOLE<1"'>
-                                <InputNumber />
-                            </Form.Item>
-                            <Form.Item label="NOTCH">
-                                <InputNumber />
-                            </Form.Item>
-                            <Form.Item label="HINGE">
-                                <InputNumber />
-                            </Form.Item>
-                            <Form.Item label="PATCH">
-                                <InputNumber />
-                            </Form.Item>
-                            <Form.Item label="TEMPER ONLY">
-                                <InputNumber />
-                            </Form.Item>
+
+                            {([
+                                'miter_1_inch',
+                                'hole_1_inch_or_less',
+                                'notch',
+                                'hinge',
+                                'patch',
+                                'temper_only',
+                            ] as FieldKey[]).map((key) => (
+                                <Form.Item key={key} label={TitleMap[key]}>
+                                    <InputNumber />
+                                </Form.Item>
+                            ))}
                         </div>
                     </Form>
                 </div>
