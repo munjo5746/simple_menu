@@ -15,6 +15,7 @@ import {
 import { Form } from 'antd';
 import json from './data.json';
 import PriceTable from './app/PriceTable';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
 
 export const TitleMap: Record<FieldKey, string> = {
     glass_type: 'Glass Type',
@@ -111,14 +112,25 @@ function App() {
             ] as LabelValue[],
         [],
     );
-    const polishTypes = React.useMemo(
-        () => [
-            { label: '2 SHORT', value: '2_short' },
-            { label: '2 LONG', value: '2_long' },
-            { label: '2 SHORT + 2 LONG', value: '2s_2l' },
-        ],
-        [],
-    );
+
+    const getOptionTitle = React.useCallback((option: LongShortOptions) => {
+        switch (option) {
+            case LongShortOptions.NONE:
+                return 'NONE';
+            case LongShortOptions.L1:
+                return '1 LONG';
+            case LongShortOptions.L2:
+                return '2 LONG';
+            case LongShortOptions.S1:
+                return '1 SHORT';
+            case LongShortOptions.S2:
+                return '2 SHORT';
+            case LongShortOptions.SL1:
+                return '1 SHORT + 1 LONG';
+            case LongShortOptions.SL2:
+                return '2 SHORT + 2 LONG';
+        }
+    }, []);
 
     const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
@@ -293,15 +305,45 @@ function App() {
                             </Form.Item>
                         </div>
 
+                        <Form.Item label="ANNEALED OR TEMPERED">
+                            {
+                                <Radio.Group>
+                                    {['ANNEALED', 'TEMPERED'].map((value) => (
+                                        <Radio
+                                            key={`polish-type-${value}`}
+                                            value={value}
+                                        >
+                                            {value}
+                                        </Radio>
+                                    ))}
+                                </Radio.Group>
+                            }
+                        </Form.Item>
+
                         <Form.Item label="Polish">
                             {
                                 <Radio.Group>
-                                    {polishTypes.map((polishType) => (
+                                    {PolishOptions.map((option) => (
                                         <Radio
-                                            key={`polish-type-${polishType.value}`}
-                                            value={polishType.value}
+                                            key={`polish-type-${option}`}
+                                            value={option}
                                         >
-                                            {polishType.label}
+                                            {getOptionTitle(option)}
+                                        </Radio>
+                                    ))}
+                                </Radio.Group>
+                            }
+                        </Form.Item>
+
+                        <Form.Item label="Miter">
+                            {
+                                <Radio.Group>
+                                    {MiterOptions.map((option) => (
+                                        <Radio
+                                            key={`polish-type-${option}`}
+                                            value={option}
+                                        >
+                                            {getOptionTitle(option)}
                                         </Radio>
                                     ))}
                                 </Radio.Group>
@@ -309,37 +351,28 @@ function App() {
                         </Form.Item>
 
                         <div className="inline">
-                            <Form.Item label="ANNEAL OR TP">
-                                <Select>
-                                    {[
-                                        {
-                                            label: 'TEMPERED',
-                                            value: 'tempered',
-                                        },
-                                        { label: 'ANNEAL', value: 'anneal' },
-                                    ].map((type) => (
-                                        <Select.Option
-                                            key={`${type.value}`}
-                                            value={type.value}
-                                        >
-                                            {type.label}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-
                             {([
-                                'miter_1_inch',
                                 'hole_1_inch_or_less',
                                 'notch',
                                 'hinge',
                                 'patch',
-                                'temper_only',
                             ] as FieldKey[]).map((key) => (
                                 <Form.Item key={key} label={TitleMap[key]}>
                                     <InputNumber onChange={onChange(key)} />
                                 </Form.Item>
                             ))}
+                            <Form.Item label="TEMPER ONLY">
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Checkbox />
+                                </div>
+                            </Form.Item>
                         </div>
                     </Form>
                 </div>
