@@ -65,6 +65,35 @@ export type GlassTypeKey =
     | 'starphire_mirror'
     | 'mirrorpane';
 
+export enum LongShortOptions {
+    NONE,
+    S1,
+    L1,
+    S2,
+    L2,
+    SL1,
+    SL2,
+}
+
+export const PolishOptions: LongShortOptions[] = [
+    LongShortOptions.NONE,
+    LongShortOptions.S1,
+    LongShortOptions.L1,
+    LongShortOptions.SL1,
+    LongShortOptions.S2,
+    LongShortOptions.L2,
+    LongShortOptions.SL2,
+];
+
+const MiterOptions: LongShortOptions[] = [
+    LongShortOptions.NONE,
+    LongShortOptions.S1,
+    LongShortOptions.L1,
+    LongShortOptions.S2,
+    LongShortOptions.L2,
+    LongShortOptions.SL2,
+];
+
 function App() {
     const glassTypes = React.useMemo(
         () =>
