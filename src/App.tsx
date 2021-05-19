@@ -246,74 +246,70 @@ function App() {
                             </Radio.Group>
                         </Form.Item>
 
-                        <div className="inline">
-                            <Form.Item
-                                style={{ minWidth: '20em' }}
-                                label="THICKNESS"
+                        <Form.Item
+                            style={{ minWidth: '20em' }}
+                            label="THICKNESS"
+                        >
+                            <Select
+                                onChange={(selected) => {
+                                    if (!selected) {
+                                        message.error(
+                                            'Unable to select thickness. This is most likely system error.',
+                                        );
+                                        return;
+                                    }
+                                    const fieldKey: FieldKey = 'thickness';
+                                    const value: string = selected as string;
+                                    setCalcForm({
+                                        ...calcForm,
+                                        [fieldKey]: value,
+                                    });
+
+                                    setSelectedThickness(value);
+                                }}
                             >
-                                <Select
-                                    onChange={(selected) => {
-                                        if (!selected) {
-                                            message.error(
-                                                'Unable to select thickness. This is most likely system error.',
-                                            );
-                                            return;
-                                        }
-                                        const fieldKey: FieldKey = 'thickness';
-                                        const value: string = selected as string;
+                                {thicknessSelections?.map((thickness) => (
+                                    <Select.Option
+                                        key={`thickness-key-${thickness}`}
+                                        value={thickness}
+                                    >
+                                        {thickness}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label="Dimension" name="dimension">
+                            <div className="dimension">
+                                <InputNumber
+                                    placeholder="width"
+                                    onChange={(value) => {
+                                        const fieldKey: FormFieldKey = 'width';
+                                        const width: number =
+                                            (value as number) || 0;
+
                                         setCalcForm({
                                             ...calcForm,
-                                            [fieldKey]: value,
+                                            [fieldKey]: width,
                                         });
-
-                                        setSelectedThickness(value);
                                     }}
-                                >
-                                    {thicknessSelections?.map((thickness) => (
-                                        <Select.Option
-                                            key={`thickness-key-${thickness}`}
-                                            value={thickness}
-                                        >
-                                            {thickness}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
+                                />
+                                <div>x</div>
+                                <InputNumber
+                                    placeholder="height"
+                                    onChange={(value) => {
+                                        const fieldKey: FormFieldKey = 'height';
+                                        const height: number =
+                                            (value as number) || 0;
 
-                            <Form.Item label="Dimension" name="dimension">
-                                <div className="dimension">
-                                    <InputNumber
-                                        placeholder="width"
-                                        onChange={(value) => {
-                                            const fieldKey: FormFieldKey =
-                                                'width';
-                                            const width: number =
-                                                (value as number) || 0;
-
-                                            setCalcForm({
-                                                ...calcForm,
-                                                [fieldKey]: width,
-                                            });
-                                        }}
-                                    />
-                                    <div>x</div>
-                                    <InputNumber
-                                        placeholder="height"
-                                        onChange={(value) => {
-                                            const fieldKey: FormFieldKey =
-                                                'height';
-                                            const height: number =
-                                                (value as number) || 0;
-
-                                            setCalcForm({
-                                                ...calcForm,
-                                                [fieldKey]: height,
-                                            });
-                                        }}
-                                    />
-                                </div>
-                            </Form.Item>
-                        </div>
+                                        setCalcForm({
+                                            ...calcForm,
+                                            [fieldKey]: height,
+                                        });
+                                    }}
+                                />
+                            </div>
+                        </Form.Item>
 
                         <Form.Item label="ANNEALED OR TEMPERED">
                             {
