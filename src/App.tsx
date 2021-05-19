@@ -281,33 +281,22 @@ function App() {
 
                         <Form.Item label="Dimension" name="dimension">
                             <div className="dimension">
-                                <InputNumber
-                                    placeholder="width"
-                                    onChange={(value) => {
-                                        const fieldKey: FormFieldKey = 'width';
-                                        const width: number =
-                                            (value as number) || 0;
-
-                                        setCalcForm({
-                                            ...calcForm,
-                                            [fieldKey]: width,
-                                        });
-                                    }}
-                                />
-                                <div>x</div>
-                                <InputNumber
-                                    placeholder="height"
-                                    onChange={(value) => {
-                                        const fieldKey: FormFieldKey = 'height';
-                                        const height: number =
-                                            (value as number) || 0;
-
-                                        setCalcForm({
-                                            ...calcForm,
-                                            [fieldKey]: height,
-                                        });
-                                    }}
-                                />
+                                <div className="dimension-container">
+                                    <div className="title">WIDTH</div>
+                                    <div className="width">
+                                        <Input suffix="ft" />
+                                        <Input suffix="inch" />
+                                        <Input suffix="fraction" />
+                                    </div>
+                                </div>
+                                <div className="dimension-container">
+                                    <div className="title">HEIGHT</div>
+                                    <div className="height">
+                                        <Input suffix="ft" />
+                                        <Input suffix="inch" />
+                                        <Input suffix="fraction" />
+                                    </div>
+                                </div>
                             </div>
                         </Form.Item>
 
