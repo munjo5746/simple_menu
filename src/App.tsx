@@ -150,7 +150,16 @@ function App() {
     const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
     const [calcForm, setCalcForm] = React.useState<FormType>({
+        // glass type
         glass_type: glassTypes[0].value,
+
+        // annealed or tempered selection
+        anneal_sq_ft: true,
+        tempered_sq_ft: false,
+
+        // polish
+        polish_per_1_inch: LongShortOptions.NONE,
+        miter_1_inch: LongShortOptions.NONE,
     });
 
     const [selectedGlassType, setSelectedGlassType] = React.useState<
@@ -422,6 +431,15 @@ function App() {
                                 <Radio.Group
                                     disabled={temperOnly}
                                     defaultValue={LongShortOptions.NONE}
+                                    onChange={(e) => {
+                                        const {
+                                            target: { value },
+                                        } = e;
+                                        setCalcForm((prev) => ({
+                                            ...prev,
+                                            polish_per_1_inch: value,
+                                        }));
+                                    }}
                                 >
                                     {PolishOptions.map((option) => (
                                         <Radio
@@ -440,6 +458,15 @@ function App() {
                                 <Radio.Group
                                     disabled={temperOnly}
                                     defaultValue={LongShortOptions.NONE}
+                                    onChange={(e) => {
+                                        const {
+                                            target: { value },
+                                        } = e;
+                                        setCalcForm((prev) => ({
+                                            ...prev,
+                                            miter_1_inch: value,
+                                        }));
+                                    }}
                                 >
                                     {MiterOptions.map((option) => (
                                         <Radio
