@@ -286,7 +286,7 @@ function App() {
                                     <div className="width">
                                         <Input suffix="ft" />
                                         <Input suffix="inch" />
-                                        <Input suffix="fraction" />
+                                        <Input suffix="frac" />
                                     </div>
                                 </div>
                                 <div className="dimension-container">
@@ -294,7 +294,7 @@ function App() {
                                     <div className="height">
                                         <Input suffix="ft" />
                                         <Input suffix="inch" />
-                                        <Input suffix="fraction" />
+                                        <Input suffix="frac" />
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +317,9 @@ function App() {
 
                         <Form.Item label="Polish">
                             {
-                                <Radio.Group>
+                                <Radio.Group
+                                    defaultValue={LongShortOptions.NONE}
+                                >
                                     {PolishOptions.map((option) => (
                                         <Radio
                                             key={`polish-type-${option}`}
@@ -332,7 +334,9 @@ function App() {
 
                         <Form.Item label="Miter">
                             {
-                                <Radio.Group>
+                                <Radio.Group
+                                    defaultValue={LongShortOptions.NONE}
+                                >
                                     {MiterOptions.map((option) => (
                                         <Radio
                                             key={`polish-type-${option}`}
