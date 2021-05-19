@@ -12,10 +12,10 @@ import {
     Select,
     Statistic,
 } from 'antd';
-import { Form } from 'antd';
+import { Form, Checkbox } from 'antd';
 import json from './data.json';
 import PriceTable from './app/PriceTable';
-import Checkbox from 'antd/lib/checkbox/Checkbox';
+import * as converters from './app.utls/converters';
 
 export const TitleMap: Record<FieldKey, string> = {
     glass_type: 'Glass Type',
@@ -52,7 +52,15 @@ export type FieldKey =
     | 'patch'
     | 'temper_only';
 
-export type FormFieldKey = FieldKey | 'width' | 'height';
+export type DimensisonKey =
+    | 'width_ft'
+    | 'width_inch'
+    | 'width_frac'
+    | 'height_ft'
+    | 'height_inch'
+    | 'height_frac';
+
+export type FormFieldKey = FieldKey | DimensisonKey;
 
 export type GlassTypeKey =
     | 'clear_glass'
@@ -186,10 +194,44 @@ function App() {
         setEnabledFieldKeys(Object.keys(data[0]));
     }, [selectedThickness]);
 
-    const onChange = (key: FieldKey) => (value: number) => {
+    const onChange = (key: FormFieldKey) => (e: any) => {
+        const {
+            target: { value },
+        } = e;
+
+        switch (key) {
+            case 'width_ft':
+                const ft = Number.parseInt(value);
+                setCalcForm((prev) => ({
+                    ...prev,
+                    [key]: converters.ftToInch(ft),
+                }));
+                break;
+            case 'width_inch':
+                const inch = Number.parseInt(value);
+                setCalcForm((prev) => ({
+                    ...prev,
+                    [key]: inch,
+                }));
+                break;
+            case 'width_frac':
+                const fracFloat = converters.fractionToInch(value);
+                if (fracFloat === null) {
+                    message.warning('The denominator cannot be 0.');
+
+                    return;
+                }
+                setCalcForm((prev) => ({
+                    ...prev,
+                    [key]: fracFloat,
+                }));
+                break;
+        }
         // on change
+        console.log(e.target.value);
     };
 
+    console.log(calcForm);
     return (
         <PageHeader
             className="page"
@@ -284,9 +326,18 @@ function App() {
                                 <div className="dimension-container">
                                     <div className="title">WIDTH</div>
                                     <div className="width">
-                                        <Input suffix="ft" />
-                                        <Input suffix="inch" />
-                                        <Input suffix="frac" />
+                                        <Input
+                                            suffix="ft"
+                                            onChange={onChange('width_ft')}
+                                        />
+                                        <Input
+                                            suffix="inch"
+                                            onChange={onChange('width_inch')}
+                                        />
+                                        <Input
+                                            suffix="frac"
+                                            onChange={onChange('width_frac')}
+                                        />
                                     </div>
                                 </div>
                                 <div className="dimension-container">
