@@ -132,6 +132,11 @@ function App() {
         }
     }, []);
 
+    const availableGlassTypes = React.useMemo(
+        () => json.map((data) => data.glass_type),
+        [json],
+    );
+
     const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
     const [calcForm, setCalcForm] = React.useState<
@@ -228,6 +233,11 @@ function App() {
                                 {glassTypes.map((glassType) => (
                                     <Radio
                                         key={`glass-type-option-${glassType.value}`}
+                                        disabled={
+                                            !availableGlassTypes.includes(
+                                                glassType.value,
+                                            )
+                                        }
                                         value={glassType.value}
                                     >
                                         {glassType.label}
