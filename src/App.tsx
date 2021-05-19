@@ -242,9 +242,9 @@ function App() {
         }
     };
 
+    const [estimate, setEstimate] = React.useState<number>();
     React.useEffect(() => {
-        const estimate = calc.calculate(calcForm, priceTable);
-        console.log('estimate', estimate);
+        setEstimate(calc.calculate(calcForm, priceTable) || undefined);
     }, [calcForm]);
 
     const [temperOnly, setTemperOnly] = React.useState<boolean>(false);
@@ -470,7 +470,11 @@ function App() {
                     </Form>
                 </div>
                 <div className="summary">
-                    <Statistic title="Estimate" prefix="$" value="50000" />
+                    <Statistic
+                        title="Estimate"
+                        prefix="$"
+                        value={converters.fromCentToDollar(estimate) || '-'}
+                    />
                 </div>
             </div>
 

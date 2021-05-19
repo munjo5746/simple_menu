@@ -21,5 +21,5 @@ export const calculate = (form: FormType, priceTable: any) => {
         return width * height * (priceTable?.temper_only || NaN);
     }
 
-    return 1;
+    return NaN;
 };

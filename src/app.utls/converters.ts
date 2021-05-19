@@ -1,5 +1,5 @@
-export const fromCentToDollar = (cents: number) => {
-    return cents / 100;
+export const fromCentToDollar = (cents: number | undefined) => {
+    return cents ? cents / 100 : NaN;
 };
 
 export const fromDollarToCent = (dollar: number) => {
