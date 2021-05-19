@@ -12,14 +12,37 @@ export const calculateHeight = (form: FormType) => {
 };
 
 export const calculate = (form: FormType, priceTable: any) => {
-    console.log(form, priceTable);
-    if (form.temper_only) {
-        const width = calculateWidth(form);
-        const height = calculateHeight(form);
+    const width = calculateWidth(form);
+    const height = calculateHeight(form);
 
-        console.log(typeof priceTable.temper_only);
+    if (form.temper_only) {
         return width * height * (priceTable?.temper_only || NaN);
     }
 
-    return NaN;
+    let total = 0;
+
+    // annealed or tempered
+    const annealedOrTempered: FormFieldKey = form.anneal_sq_ft
+        ? 'anneal_sq_ft'
+        : 'tempered_sq_ft';
+    total += priceTable?.[annealedOrTempered] || 0;
+
+    // polish
+
+    // miter
+
+    // hole < 1"
+    if (form.hole_1_inch_or_less)
+        total += priceTable?.['hole_1_inch_or_less'] || 0;
+
+    // notch
+    if (form.notch) total += priceTable?.['notch'] || 0;
+
+    // hinge
+    if (form.hinge) total += priceTable?.['hinge'] || 0;
+
+    // patch
+    if (form.patch) total += priceTable?.['patch'] || 0;
+
+    return total;
 };
