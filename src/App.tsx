@@ -207,9 +207,7 @@ function App() {
     }, [selectedThickness]);
 
     const onChange = (key: FormFieldKey) => (e: any) => {
-        const {
-            target: { value },
-        } = e;
+        const { target: { value } = { value: e } } = e;
 
         switch (key) {
             case 'width_ft':
@@ -259,6 +257,7 @@ function App() {
 
     const [temperOnly, setTemperOnly] = React.useState<boolean>(false);
 
+    console.log(calcForm);
     return (
         <PageHeader
             className="page"
