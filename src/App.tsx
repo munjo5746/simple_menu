@@ -201,6 +201,7 @@ function App() {
 
         switch (key) {
             case 'width_ft':
+            case 'height_ft':
                 const ft = Number.parseInt(value);
                 setCalcForm((prev) => ({
                     ...prev,
@@ -208,6 +209,7 @@ function App() {
                 }));
                 break;
             case 'width_inch':
+            case 'height_inch':
                 const inch = Number.parseInt(value);
                 setCalcForm((prev) => ({
                     ...prev,
@@ -215,6 +217,7 @@ function App() {
                 }));
                 break;
             case 'width_frac':
+            case 'height_frac':
                 const fracFloat = converters.fractionToInch(value);
                 if (fracFloat === null) {
                     message.warning('The denominator cannot be 0.');
@@ -343,9 +346,18 @@ function App() {
                                 <div className="dimension-container">
                                     <div className="title">HEIGHT</div>
                                     <div className="height">
-                                        <Input suffix="ft" />
-                                        <Input suffix="inch" />
-                                        <Input suffix="frac" />
+                                        <Input
+                                            suffix="ft"
+                                            onChange={onChange('height_ft')}
+                                        />
+                                        <Input
+                                            suffix="inch"
+                                            onChange={onChange('height_inch')}
+                                        />
+                                        <Input
+                                            suffix="frac"
+                                            onChange={onChange('height_frac')}
+                                        />
                                     </div>
                                 </div>
                             </div>
