@@ -16,6 +16,7 @@ import { Form, Checkbox } from 'antd';
 import json from './data.json';
 import PriceTable from './app/PriceTable';
 import * as converters from './app.utls/converters';
+import * as calc from './app.utls/calc';
 
 export const TitleMap: Record<FieldKey, string> = {
     glass_type: 'Glass Type',
@@ -39,6 +40,7 @@ type LabelValue = {
 export type DataType = Record<FieldKey, DataValueType>;
 export type DataValueType = string | number | GlassTypeKey;
 
+export type FormType = { [key in FormFieldKey]?: any };
 export type FieldKey =
     | 'glass_type'
     | 'thickness'
@@ -147,9 +149,7 @@ function App() {
 
     const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
     const [form] = Form.useForm();
-    const [calcForm, setCalcForm] = React.useState<
-        { [key in FormFieldKey]?: string | number }
-    >({
+    const [calcForm, setCalcForm] = React.useState<FormType>({
         glass_type: glassTypes[0].value,
     });
 
@@ -157,7 +157,6 @@ function App() {
         LabelValue | undefined
     >(glassTypes[0]);
     const [selectedThickness, setSelectedThickness] = React.useState<string>();
-    const [enabledFieldKeys, setEnabledFieldKeys] = React.useState<string[]>();
     const [thicknessSelections, setThicknessSelections] = React.useState<
         string[]
     >();
@@ -165,6 +164,7 @@ function App() {
         setThicknessSelections(undefined);
     }, []);
 
+    const [priceTable, setPriceTable] = React.useState<any>();
     React.useEffect(() => {
         reset();
 
@@ -180,18 +180,20 @@ function App() {
             data.map((d) => d.thickness).filter((thickness) => !!thickness),
         );
     }, [selectedGlassType]);
+
     React.useEffect(() => {
-        const data = json.filter(
-            (jsonData) => jsonData.thickness === selectedThickness,
+        const data = json.find(
+            (jsonData) =>
+                jsonData.glass_type === selectedGlassType?.value &&
+                jsonData.thickness === selectedThickness,
         );
-        if (!data || data.length === 0) {
+        if (!data) {
             message.warning('Data cannot be found for selected thickness.');
             return;
         }
         // maybe, validate if all "data" has same attributes
 
-        // set fields to enable
-        setEnabledFieldKeys(Object.keys(data[0]));
+        setPriceTable(data);
     }, [selectedThickness]);
 
     const onChange = (key: FormFieldKey) => (e: any) => {
@@ -219,6 +221,7 @@ function App() {
             case 'width_frac':
             case 'height_frac':
                 const fracFloat = converters.fractionToInch(value);
+                console.log(key, fracFloat);
                 if (fracFloat === null) {
                     message.warning('The denominator cannot be 0.');
 
@@ -239,8 +242,12 @@ function App() {
         }
     };
 
+    React.useEffect(() => {
+        const estimate = calc.calculate(calcForm, priceTable);
+        console.log('estimate', estimate);
+    }, [calcForm]);
+
     const [temperOnly, setTemperOnly] = React.useState<boolean>(false);
-    console.log(temperOnly);
 
     return (
         <PageHeader
@@ -303,6 +310,7 @@ function App() {
                             label="THICKNESS"
                         >
                             <Select
+                                defaultValue={thicknessSelections?.[0]}
                                 onChange={(selected) => {
                                     if (!selected) {
                                         message.error(
@@ -445,11 +453,15 @@ function App() {
                                     }}
                                 >
                                     <Checkbox
-                                        onChange={(checked) => {
-                                            console.log(checked);
-                                            setTemperOnly(
-                                                checked.target.checked,
-                                            );
+                                        onChange={(e) => {
+                                            const {
+                                                target: { checked },
+                                            } = e;
+                                            setTemperOnly(checked);
+                                            setCalcForm((prev) => ({
+                                                ...prev,
+                                                temper_only: checked,
+                                            }));
                                         }}
                                     />
                                 </div>
