@@ -382,7 +382,29 @@ function App() {
 
                         <Form.Item label="ANNEALED OR TEMPERED">
                             {
-                                <Radio.Group disabled={temperOnly}>
+                                <Radio.Group
+                                    defaultValue={'ANNEALED'}
+                                    disabled={temperOnly}
+                                    onChange={(e) => {
+                                        const {
+                                            target: { value },
+                                        } = e;
+                                        const field: FormFieldKey =
+                                            value === 'ANNEALED'
+                                                ? 'anneal_sq_ft'
+                                                : 'tempered_sq_ft';
+
+                                        setCalcForm((prev) => ({
+                                            ...prev,
+                                            ...{
+                                                [field]: true,
+                                                [field === 'anneal_sq_ft'
+                                                    ? 'tempered_sq_ft'
+                                                    : 'anneal_sq_ft']: false,
+                                            },
+                                        }));
+                                    }}
+                                >
                                     {['ANNEALED', 'TEMPERED'].map((value) => (
                                         <Radio
                                             key={`polish-type-${value}`}
