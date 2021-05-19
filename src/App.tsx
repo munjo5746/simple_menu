@@ -179,6 +179,7 @@ function App() {
         setThicknessSelections(
             data.map((d) => d.thickness).filter((thickness) => !!thickness),
         );
+        setSelectedThickness(undefined);
     }, [selectedGlassType]);
 
     React.useEffect(() => {
@@ -311,6 +312,7 @@ function App() {
                         >
                             <Select
                                 defaultValue={thicknessSelections?.[0]}
+                                value={selectedThickness}
                                 onChange={(selected) => {
                                     if (!selected) {
                                         message.error(
