@@ -229,12 +229,19 @@ function App() {
                     [key]: fracFloat,
                 }));
                 break;
+            default:
+                setCalcForm((prev) => ({
+                    ...prev,
+                    [key]: value,
+                }));
+
+                break;
         }
-        // on change
-        console.log(e.target.value);
     };
 
-    console.log(calcForm);
+    const [temperOnly, setTemperOnly] = React.useState<boolean>(false);
+    console.log(temperOnly);
+
     return (
         <PageHeader
             className="page"
@@ -365,7 +372,7 @@ function App() {
 
                         <Form.Item label="ANNEALED OR TEMPERED">
                             {
-                                <Radio.Group>
+                                <Radio.Group disabled={temperOnly}>
                                     {['ANNEALED', 'TEMPERED'].map((value) => (
                                         <Radio
                                             key={`polish-type-${value}`}
@@ -381,6 +388,7 @@ function App() {
                         <Form.Item label="Polish">
                             {
                                 <Radio.Group
+                                    disabled={temperOnly}
                                     defaultValue={LongShortOptions.NONE}
                                 >
                                     {PolishOptions.map((option) => (
@@ -398,6 +406,7 @@ function App() {
                         <Form.Item label="Miter">
                             {
                                 <Radio.Group
+                                    disabled={temperOnly}
                                     defaultValue={LongShortOptions.NONE}
                                 >
                                     {MiterOptions.map((option) => (
@@ -420,7 +429,10 @@ function App() {
                                 'patch',
                             ] as FieldKey[]).map((key) => (
                                 <Form.Item key={key} label={TitleMap[key]}>
-                                    <InputNumber onChange={onChange(key)} />
+                                    <InputNumber
+                                        onChange={onChange(key)}
+                                        disabled={temperOnly}
+                                    />
                                 </Form.Item>
                             ))}
                             <Form.Item label="TEMPER ONLY">
@@ -432,7 +444,14 @@ function App() {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Checkbox />
+                                    <Checkbox
+                                        onChange={(checked) => {
+                                            console.log(checked);
+                                            setTemperOnly(
+                                                checked.target.checked,
+                                            );
+                                        }}
+                                    />
                                 </div>
                             </Form.Item>
                         </div>
