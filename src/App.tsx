@@ -6,8 +6,11 @@ const App: React.FC = () => {
         <div className={styles.App}>
             <div className={styles.Header}>
                 <div className={styles.Title}>Cafe Terrace</div>
+                <div className={styles.Address}>
+                    <div>208-17 Northern Blvd</div>
+                    <div>Bayside, NY, 11361</div>
+                </div>
             </div>
-            <div className={styles.MenuItemWrapper}></div>
             <div className={styles.Menu}>
                 {['Coffee', 'Tea', 'Tart', 'Cake'].map((menuType) => {
                     return (
@@ -15,6 +18,7 @@ const App: React.FC = () => {
                     );
                 })}
             </div>
+            <div className={styles.MenuItemWrapper}></div>
         </div>
     );
 };
