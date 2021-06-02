@@ -16,6 +16,37 @@
                         "name": "Iced Coffee",
                         "prices": [
                             {
+                                "for": "md",
+                                "value": 2.75
+                            },
+                            {
+                                "for": "lg",
+                                "value": 3.0
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Decaf",
+                        "prices": [
+                            {
+                                "for": "md",
+                                "value": 2.75
+                            },
+                            {
+                                "for": "lg",
+                                "value": 3.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Espresso",
+                "items": [
+                    {
+                        "name": "Americano",
+                        "prices": [
+                            {
                                 "for": "sm",
                                 "value": 3.99
                             },

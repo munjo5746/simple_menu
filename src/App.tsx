@@ -56,7 +56,29 @@ const App: React.FC = () => {
             <div className={styles.Menu}>
                 {store.menu.categories.map((category) => {
                     return (
-                        <span key={`category-${category.name}`}>
+                        <span
+                            key={`category-${category.name}`}
+                            className={`${
+                                category.name === selectedCategory.name
+                                    ? styles.Selected
+                                    : ''
+                            }`}
+                            onClick={(e) => {
+                                e.preventDefault();
+
+                                const {
+                                    menu: { categories },
+                                } = store;
+                                const currentCategory = categories.find(
+                                    (c) => c.name === category.name,
+                                );
+                                if (!currentCategory) {
+                                    return;
+                                }
+
+                                setSelectedCategory(currentCategory);
+                            }}
+                        >
                             {category.name}
                         </span>
                     );
