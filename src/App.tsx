@@ -4,7 +4,7 @@ import * as utils from './utils';
 
 import storeJson from './store.json';
 
-interface Store {
+export interface Store {
     name: string;
     address: Address;
     menu: Menu;
@@ -37,20 +37,21 @@ interface Price {
 
 const App: React.FC = () => {
     const [store, setStore] = React.useState<Store>(storeJson);
-    // const [categories, setCategories] = React.useState<Category[]>(
-    //     categoryJson,
-    // );
     const [selectedCategory, setSelectedCategory] = React.useState<Category>(
         store.menu.categories[0],
     );
+
+    const address = React.useMemo(() => utils.getStoreAddress(store), [store]);
     return (
         <div className={styles.App}>
             <div className={styles.Header}>
-                <div className={styles.Title}>Cafe Terrace</div>
-                <div className={styles.Address}>
-                    <div>208-17 Northern Blvd</div>
-                    <div>Bayside, NY, 11361</div>
-                </div>
+                <div className={styles.Title}>{store.name}</div>
+                {address && (
+                    <div className={styles.Address}>
+                        <div>{address?.line1}</div>
+                        <div>{address?.line2}</div>
+                    </div>
+                )}
             </div>
             <div className={styles.Menu}>
                 {store.menu.categories.map((category) => {
