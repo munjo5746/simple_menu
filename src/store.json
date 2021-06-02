@@ -1,0 +1,36 @@
+{
+    "name": "Cafe Terrace",
+    "address": {
+        "line1": "208-17 Northern Blvd",
+        "city": "Bayside",
+        "state": "NY",
+        "zip": "11361"
+    },
+
+    "menu": {
+        "categories": [
+            {
+                "name": "Coffee",
+                "items": [
+                    {
+                        "name": "Iced Coffee",
+                        "prices": [
+                            {
+                                "for": "sm",
+                                "value": 3.99
+                            },
+                            {
+                                "for": "md",
+                                "value": 4.99
+                            },
+                            {
+                                "for": "lg",
+                                "value": 5.99
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

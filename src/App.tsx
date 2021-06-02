@@ -2,12 +2,30 @@ import React from 'react';
 import styles from './App.module.scss';
 import * as utils from './utils';
 
-interface Category {
+import storeJson from './store.json';
+
+interface Store {
     name: string;
-    menus: Menu[];
+    address: Address;
+    menu: Menu;
+}
+
+interface Address {
+    line1: string;
+    city: string;
+    state: string;
+    zip: string;
 }
 
 interface Menu {
+    categories: Category[];
+}
+interface Category {
+    name: string;
+    items: Item[];
+}
+
+interface Item {
     name: string;
     prices: Price[];
 }
@@ -17,37 +35,13 @@ interface Price {
     value: number;
 }
 
-const categoryJson = [
-    {
-        name: 'Coffee',
-        menus: [
-            {
-                name: 'Iced Coffee',
-                prices: [
-                    {
-                        for: 'sm',
-                        value: 3.99,
-                    },
-                    {
-                        for: 'md',
-                        value: 4.99,
-                    },
-                    {
-                        for: 'lg',
-                        value: 5.99,
-                    },
-                ],
-            },
-        ],
-    },
-];
-
 const App: React.FC = () => {
-    const [categories, setCategories] = React.useState<Category[]>(
-        categoryJson,
-    );
+    const [store, setStore] = React.useState<Store>(storeJson);
+    // const [categories, setCategories] = React.useState<Category[]>(
+    //     categoryJson,
+    // );
     const [selectedCategory, setSelectedCategory] = React.useState<Category>(
-        categoryJson[0],
+        store.menu.categories[0],
     );
     return (
         <div className={styles.App}>
@@ -59,7 +53,7 @@ const App: React.FC = () => {
                 </div>
             </div>
             <div className={styles.Menu}>
-                {categories.map((category) => {
+                {store.menu.categories.map((category) => {
                     return (
                         <span key={`category-${category.name}`}>
                             {category.name}
@@ -68,17 +62,17 @@ const App: React.FC = () => {
                 })}
             </div>
             <div className={styles.MenuItemWrapper}>
-                {selectedCategory?.menus.map((menu) => {
+                {selectedCategory?.items.map((item) => {
                     return (
                         <div
-                            key={`item-${menu.name}`}
+                            key={`item-${item.name}`}
                             className={`${styles.Card} ${styles.Item}`}
                         >
-                            <div className={styles.Name}>{menu.name}</div>
+                            <div className={styles.Name}>{item.name}</div>
                             <div className={styles.PriceList}>
-                                {menu.prices.map((price) => (
+                                {item.prices.map((price) => (
                                     <span
-                                        key={`menu-item-${menu.name}-price-for-${price.for}`}
+                                        key={`menu-item-${item.name}-price-for-${price.for}`}
                                         className={styles.Price}
                                     >
                                         <span className={styles.Label}>
